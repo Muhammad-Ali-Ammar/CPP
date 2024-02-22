@@ -161,6 +161,24 @@ void Tree<treeDataType>::BST_getMinData(treeDataType* Address_Result) {
   }
 }
 
+// template <typename treeDataType>
+// void Tree<treeDataType>::BST_getMinData(
+//     treeNode<treeDataType>** Address_Result) {
+//   if (BST_isTreeEmpty() == true) {
+//     Address_Result = nullptr;
+//     return;
+//   }
+
+//   else {
+//     treeNode<treeDataType>* ptr = root;
+//     while (ptr->left != nullptr) {
+//       ptr = ptr->left;
+//     }
+
+//     *Address_Result = ptr;
+//   }
+// }
+
 template <typename treeDataType>
 int Tree<treeDataType>::BST_getHeight_recurise() {
   return (getHeight_recurise(this->root));
@@ -193,6 +211,65 @@ bool Tree<treeDataType>::BST_isTreeBST_Method2_recursive() {
   // it's for int only
   return (isTreeBST_Method2(this->root, INT_MIN, INT_MAX));
 }
+
+template <typename treeDataType>
+void Tree<treeDataType>::BST_getInorderSuccessor(treeDataType Copy_Data,
+                                                 treeDataType* Address_Result) {
+  if (this->root == nullptr) {
+    *Address_Result = INT_MIN;
+    return;
+  }
+
+  treeNode<treeDataType>* curretNode = root;
+  treeNode<treeDataType>* anncesstor = nullptr;
+
+  while (curretNode != nullptr) {
+    if (curretNode->data > Copy_Data) {
+      anncesstor = curretNode;
+      curretNode = curretNode->left;
+    } else if (curretNode->data < Copy_Data) {
+      curretNode = curretNode->right;
+
+    } else {
+      // i got the node :
+
+      // case 1, it has right
+      if (curretNode->right != nullptr) {
+        treeNode<treeDataType>* tempRoot = root;
+        root = curretNode->right;
+        BST_getMinData(Address_Result);
+        root = tempRoot;
+      }
+
+      // case 2 , no right
+      else {
+        if (anncesstor == nullptr)
+          *Address_Result = INT_MIN;
+        else
+          *Address_Result = anncesstor->data;
+      }
+
+      return;
+    }
+  }
+}
+
+// template <typename treeDataType>
+// void Tree<treeDataType>::BST_FindNode(treeDataType Copy_Data,
+//                                       treeDataType** Address_Result) {
+//   treeNode<treeDataType>* ptr = root;
+//   while (ptr != nullptr) {
+//     if (ptr->data == Copy_Data) {
+//       *Address_Result = ptr;
+//       return;
+//     } else if (Copy_Data < ptr->data) {
+//       ptr = ptr->left;
+//     } else {
+//       ptr = ptr->right;
+//     }
+//   }
+//   *Address_Result = nullptr;
+// }
 
 template <typename treeDataType>
 void Tree<treeDataType>::Task3_Microsoft(treeDataType Copy_LeafId) {
@@ -252,7 +329,7 @@ void Tree<treeDataType>::BST_deleteNode(treeDataType Copy_LeafId) {
 }
 
 /**************************** Private Software Interface Implementation
- * **************/
+ * ***************/
 
 template <typename treeDataType>
 void Tree<treeDataType>::addRootNode(treeDataType Copy_Data) {
@@ -348,8 +425,8 @@ treeNode<treeDataType>* Tree<treeDataType>::deleteNode(
     // case 3 ,it has 2 childs
     else {
       treeNode<treeDataType>* tempRoot = root;
-      root = currentNode->right;  // just modify the root to get the min of the
-                                  // new tree = subtree
+      root = currentNode->right;  // just modify the root to get the min of
+                                  // the new tree = subtree
       BST_getMinData(&(currentNode->data));
       root = tempRoot;  // return the root to the original
       currentNode->right = deleteNode(currentNode->right, currentNode->data);

@@ -27,16 +27,14 @@ using namespace std;
  * *******************/
 int main() {
   Tree<int> t1;
-  t1.BST_addNode(7);
-  t1.BST_addNode(9);
-  t1.BST_addNode(4);
-  t1.BST_addNode(3);
+  t1.BST_addNode(15);
+  t1.BST_addNode(10);
   t1.BST_addNode(8);
-  t1.BST_addNode(5);
-  t1.BST_addNode(2);
+  t1.BST_addNode(12);
 
-  t1.BST_deleteNode(5);
-  t1.BST_traverseBreadthFirst();
+  int x;
+  t1.BST_getInorderSuccessor(15, &x);
+  cout << x << endl;
 }
 
 /**************************** Private Software Interface Implementation

@@ -86,6 +86,7 @@ class Tree {
 
   void BST_getMaxData(treeDataType* Address_Result);
   void BST_getMinData(treeDataType* Address_Result);
+  // void BST_getMinData(treeNode<treeDataType>** Address_Result);
 
   void BST_deleteNode(treeDataType Copy_Data);
 
@@ -97,6 +98,11 @@ class Tree {
   int BST_getHeight_recurise();  // O(N)
   bool BST_isTreeBST_recursive();
   bool BST_isTreeBST_Method2_recursive();
+
+  void BST_getInorderSuccessor(treeDataType Copy_Data,
+                               treeDataType* Address_Result);
+
+  // void BST_FindNode(treeDataType Copy_Data, treeDataType** Address_Result);
 
   /*
     vector as queue
